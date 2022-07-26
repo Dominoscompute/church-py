@@ -1,0 +1,32 @@
+# helpers for input and output
+def ch2num(n):
+    return n(lambda a: a+1)(0)
+def out(n):
+    result = ch2num(n)
+    print(result)
+    return (result, n)
+def nats(n = int):
+    result, i = (lambda f: lambda a: a), 1
+    while (i <= n):
+        i += 1
+        result = succ(result)
+    return result
+# the main church numerals
+def succ(n):
+    return lambda f: lambda a: f(n(f)(a))
+def add(n):
+    return lambda m: n(succ)(m)
+def mul(n):
+    return lambda m: lambda f: n(m(f))
+def exp(n):
+    return lambda m: m(n)
+
+def zero(f):
+    return lambda a: a
+one = lambda f: lambda a: f(a)
+two = succ(one)
+three = add(two)(one)
+four = exp(two)(two)
+five = add(two)(three)
+six = mul(two)(three)
+seven = nats(7)
