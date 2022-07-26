@@ -4,5 +4,7 @@ I tested with  python 3.9 and Ipython  on a [M1 mac](https://www.amazon.com/Appl
 
 ```console
 $ python3.9 church.py
-46656
+0
+99
+69
 ```

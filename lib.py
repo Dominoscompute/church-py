@@ -6,6 +6,10 @@ def ch2tup(p):
     return (p(lambda a:lambda b:a), p(lambda a:lambda b:b))
 def ch2bool(q):
     return q(True)(False)
+def ch2ipair(i):
+    return(ch2num(fst(i)), ch2num(snd(i)))
+def ch2int(i):
+    return ch2num(fst(i))-ch2num(snd(i))
 def to_list(*values):
     if len(values)>1:
         return pair(tr)(pair(values[0])(to_list(values[:1])))
@@ -46,6 +50,13 @@ def nats(n = int):
         i += 1
         result = succ(result)
     return result
+def ints(n):
+    if(n>0):
+        return pair(nats(n))(zero)
+    elif(n<0):
+        return pair(zero)(nats(-n))
+    else:
+        return szero
 def pred(n):
     phi=lambda p:pair(snd(p))(succ(snd(p)))
     return n(phi)(pair(zero)(zero))(lambda a:lambda b:a)
@@ -93,13 +104,22 @@ def tail(l):
     return snd(snd(l))
 
 # integers as pairs
-izero = pair(zero)(zero)
-def isucc(i):
+szero = pair(zero)(zero)
+def ssucc(i):
     return one_zero(pair(succ(fst(i)))(snd(i)))
-def one_zero(i):return 0
+def one_zero(i):
+    return pair(sub(fst(i))(snd(i)))(sub(snd(i))(fst(i)))
+def neg(i):
+    return pair(snd(i))(fst(i))
+def sadd(i):
+    return lambda j: pair(add(fst(i))(fst(j)))(add(snd(i))(snd(j)))
+def ssub(i):
+    return lambda j: sadd(i)(neg(j))
+def smul(i):
+    return lambda j: pair(add(mul(fst(i))(fst(j)))(mul(snd(i))(snd(j))))(add(mul(fst(i))(snd(j)))(mul(snd(i))(fst(j))))
 
 
-
+# a future me problem is to impliment a printing function
 #def out(val, a = "none", b = True, c="none", d=False):
 #    if not d:
 #        d = c
